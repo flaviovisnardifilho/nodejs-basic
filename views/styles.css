@@ -1,0 +1,22 @@
+body {
+  background-color: black;
+  color: white;
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: white;
+}
+a:visited {
+  color: white;
+}
+a:hover {
+  color: gold;
+}
+a:active {
+  color: yellow;
+}
