@@ -1,57 +1,38 @@
-const http = require("http");
+const express = require("express");
+const app = express();
 const path = require("path");
-const fs = require("fs");
 
 require("dotenv").config();
-
 const hostname = process.env.HOSTNAME || "127.0.0.1";
 const port = process.env.PORT || 8080;
 
-const server = http.createServer((req, res) => {
-  res.setHeader("Content-Type", "text/html");
+// CSS, etc
+app.use(express.static("style"));
 
-  let filePath = "./views/";
-  switch (req.url) {
-    case "/":
-      filePath += "index.html";
-      // res.statusCode = 200;
-      break;
-    case "/about":
-      filePath += "about.html";
-      // res.statusCode = 200;
-      break;
-    case "/contact":
-      filePath += "contact-me.html";
-      // res.statusCode = 200;
-      break;
-    case "/contact-me":
-      res.statusCode = 301;
-      res.setHeader("Location", "/contact");
-      res.end();
-      break;
-    case "/styles.css":
-      filePath += "styles.css";
-      break;
-    default:
-      filePath += "404.html";
-      res.statusCode = 404;
-      break;
-  }
-
-  let extname = path.extname(filePath);
-  let contentType = extname === ".css" ? "text/css" : "text/html";
-
-  fs.readFile(filePath, (err, data) => {
-    if (err) {
-      console.log(err);
-      res.end();
-    } else {
-      res.writeHead(res.statusCode, { "Content-Type": contentType });
-      res.end(data);
-    }
-  });
+// Pages
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "/views/index.html"));
 });
 
-server.listen(port, hostname, () =>
+app.get("/about", (req, res) => {
+  res.sendFile(path.join(__dirname, "/views/about.html"));
+});
+
+app.get("/contact", (req, res) => {
+  res.sendFile(path.join(__dirname, "/views/contact-me.html"));
+});
+
+// Redirect route
+app.get("/contact-me", (req, res) => {
+  res.redirect("/contact");
+});
+
+// Page not found
+app.use((req, res, next) => {
+  res.status(404).sendFile(path.join(__dirname, "/views/404.html"));
+});
+
+// Server
+app.listen(port, hostname, () =>
   console.log(`Server running at http://${hostname}:${port}`)
 );
