@@ -1,2 +1,4 @@
-This is a NodeJS project from [TheOdinProject](https://www.theodinproject.com/lessons/nodejs-basic-informational-site).
+This was a NodeJS only project ( [TheOdinProject](https://www.theodinproject.com/lessons/nodejs-basic-informational-site) ),
+
+ Now use Express, following this [assignment.](https://www.theodinproject.com/lessons/nodejs-introduction-to-express)
 
